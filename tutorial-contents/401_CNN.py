@@ -30,7 +30,7 @@ DOWNLOAD_MNIST = False
 # Mnist digits dataset
 if not(os.path.exists('./mnist/')) or not os.listdir('./mnist/'):
     # not mnist dir or mnist is empyt dir
-    DOWNLOAD_MNIST = True
+    DOWNLOAD_MNIST = False
 
 train_data = torchvision.datasets.MNIST(
     root='./mnist/',
@@ -40,20 +40,20 @@ train_data = torchvision.datasets.MNIST(
     download=DOWNLOAD_MNIST,
 )
 
-# plot one example
-print(train_data.train_data.size())                 # (60000, 28, 28)
-print(train_data.train_labels.size())               # (60000)
-plt.imshow(train_data.train_data[0].numpy(), cmap='gray')
-plt.title('%i' % train_data.train_labels[0])
-plt.show()
+# # plot one example
+# print(train_data.train_data.size())                 # (60000, 28, 28)
+# print(train_data.train_labels.size())               # (60000)
+# plt.imshow(train_data.train_data[0].numpy(), cmap='gray')
+# plt.title('%i' % train_data.train_labels[0])
+# plt.show()
 
 # Data Loader for easy mini-batch return in training, the image batch shape will be (50, 1, 28, 28)
 train_loader = Data.DataLoader(dataset=train_data, batch_size=BATCH_SIZE, shuffle=True)
 
-# pick 2000 samples to speed up testing
+# pick 1000 samples to speed up testing
 test_data = torchvision.datasets.MNIST(root='./mnist/', train=False)
-test_x = torch.unsqueeze(test_data.test_data, dim=1).type(torch.FloatTensor)[:2000]/255.   # shape from (2000, 28, 28) to (2000, 1, 28, 28), value in range(0,1)
-test_y = test_data.test_labels[:2000]
+test_x = torch.unsqueeze(test_data.test_data, dim=1).type(torch.FloatTensor)[:1000]/255.   # shape from (2000, 28, 28) to (2000, 1, 28, 28), value in range(0,1)
+test_y = test_data.test_labels[:1000]
 
 
 class CNN(nn.Module):
@@ -126,6 +126,9 @@ for epoch in range(EPOCH):
                 labels = test_y.numpy()[:plot_only]
                 plot_with_labels(low_dim_embs, labels)
 plt.ioff()
+
+# save entile net
+torch.save(cnn,'cnn.pkl')
 
 # print 10 predictions from test data
 test_output, _ = cnn(test_x[:10])
