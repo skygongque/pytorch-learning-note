@@ -5,6 +5,8 @@ My Youtube Channel: https://www.youtube.com/user/MorvanZhou
 Dependencies:
 torch: 0.1.11
 """
+
+# 批训练
 import torch
 import torch.utils.data as Data
 

@@ -67,5 +67,6 @@ for i in range(10):
     print(pred_y, 'prediction number')
     # 展示出图片
     img = to_pil_image(test_x_each.view(1, 28, 28)).show()
+    input('enter:')
 
 

@@ -43,6 +43,7 @@ net = Net(n_feature=2, n_hidden=10, n_output=2)     # define the network
 print(net)  # net architecture
 
 optimizer = torch.optim.SGD(net.parameters(), lr=0.02)
+# 分类问题使用的loss_func = torch.nn.CrossEntropyLoss()
 loss_func = torch.nn.CrossEntropyLoss()  # the target label is NOT an one-hotted
 
 plt.ion()   # something about plotting
