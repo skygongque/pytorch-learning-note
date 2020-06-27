@@ -52,3 +52,39 @@ x = torch.randn(4, 4)
 x.view(-1) #降到1维
 
 ```
+
+## one_hot_encode
+
+第一种方法  
+
+```
+import torch
+import torch.nn as nn
+import string
+
+
+characters = string.digits
+
+target_str = '1234'
+tensor_a = torch.tensor([characters.find(x) for x in target_str])
+N = tensor_a.size(0)
+num_class = len(characters)
+one_hot = torch.zeros(N,num_class)
+one_hot.scatter_(dim=1,index=torch.unsqueeze(tensor_a,dim=1),src=torch.ones(N,num_class))
+print(one_hot)
+```
+
+第二种方法
+
+```
+target_str = '1234'
+target = []
+for char in target_str:
+    vec = [0.0] * len(characters)
+    vec[characters.find(char)] = 1.0
+    target += vec
+
+tensor_b = torch.tensor(target)
+tensor_b = tensor_b.view(-1,len(characters))
+print(tensor_b)
+```
